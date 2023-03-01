@@ -19,6 +19,9 @@ public class Movimiento : MonoBehaviour
     [SerializeField]
 
     private float _speed = 10;
+
+    [SerializeField]
+    private GameObject _disparoOriginal;
     
     // Ciclo de vida  - metodos que se invocan durante el script
 
@@ -36,6 +39,7 @@ public class Movimiento : MonoBehaviour
         // Puede regresar nulo
         transform = GetComponent<Transform>();
         Assert.IsNotNull(transform, "ES NECESARIO PARA MOVIMIENTO UN TRANFORM");
+        Assert.IsNotNull(_disparoOriginal, "disparo no puede ser nulo");
     }
 
     // Update is called once per frame
@@ -79,6 +83,7 @@ public class Movimiento : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             print("JUMP");
+            Instantiate(_disparoOriginal, transform.position, transform.rotation); 
         }
 
         // como mover objetos
