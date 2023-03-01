@@ -31,4 +31,35 @@ public class Proyectil : MonoBehaviour
     // 2. un rigidbody
     // 3. un script que chequee las colisiones
     // el rigidbody es un componente que se agrega a un objeto y debe de estar en un objeto movil
+
+    void onColissionEnter(Collision C){
+        print("ENTER" + C.transform.name);
+
+    }
+
+    void onColissionStay(Collision C){
+        print("STAY");
+
+    }
+
+    void onColissionExit(Collision C){
+        print("EXIT");
+
+    }
+
+    void onTriggerEnter(Collider C){
+        print("ENTER");
+
+    }
+
+    void onTriggerStay(Collider C){
+        print("STAY");
+
+    }
+
+    void onTriggerExit(Collider C){
+        print("EXIT");
+
+    }
 }
+
