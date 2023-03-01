@@ -14,7 +14,7 @@ using UnityEngine.Assertions;
 public class Movimiento : MonoBehaviour
 {
     // Aceder a otro componente
-    private Transform _transform;
+    private Transform transform;
 
     [SerializeField]
 
@@ -34,8 +34,8 @@ public class Movimiento : MonoBehaviour
         // Obtener referencia a otro componente
         // getcomponent es lento - se usa en start o awake
         // Puede regresar nulo
-        _transform = GetComponent<Transform>();
-        Assert.IsNotNull(_transform, "ES NECESARIO PARA MOVIMIENTO UN TRANFORM");
+        transform = GetComponent<Transform>();
+        Assert.IsNotNull(transform, "ES NECESARIO PARA MOVIMIENTO UN TRANFORM");
     }
 
     // Update is called once per frame
@@ -87,7 +87,7 @@ public class Movimiento : MonoBehaviour
         // 3 motor de fisica
         // 4 navmesh (AI)
 
-        _transform.Translate(1 * _speed * Time.deltaTime, 0, 0, Space.World);
+        transform.Translate(horizontal * _speed * Time.deltaTime, vertical * _speed * Time.deltaTime, 0, Space.World);
 
     }
 
