@@ -23,5 +23,12 @@ public class Proyectil : MonoBehaviour
             _speed * Time.deltaTime,
             0
         );
+
     }
+    // Colisiones
+    // para checar que colisiones con fisica necesitamos:
+    // 1. un collider
+    // 2. un rigidbody
+    // 3. un script que chequee las colisiones
+    // el rigidbody es un componente que se agrega a un objeto y debe de estar en un objeto movil
 }
