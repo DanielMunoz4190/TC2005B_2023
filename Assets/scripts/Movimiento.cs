@@ -1,110 +1,165 @@
-// usando .NET
-// importamos namespaces
+// estamos usando .NET
+// aquí "importamos" namespaces
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-// Debug.Log();
-// Debug.LogWarning();
-
-// Obligamos la presencia de un componente gameobject
+// OJO 
+// con esta directiva obligamos la presencia de un componente en el gameobject
+// (todos tienen transform así que este ejemplo es redundante)
 [RequireComponent(typeof(Transform))]
-
 public class Movimiento : MonoBehaviour
 {
-    // Aceder a otro componente
-    private Transform transform;
+
+    // va a haber situaciones en donde deba accedr a otro componente
+    // voy a necesitar una referencia
+    private Transform _transform;
 
     [SerializeField]
-
     private float _speed = 10;
 
     [SerializeField]
-    private GameObject _disparoOriginal;
-    
-    // Ciclo de vida  - metodos que se invocan durante el script
+    private Proyectil _disparoOriginal;
 
-    // se invoca una vez al inicio de la vida del componente
-    // awake se invoca aunque el objeto este deshabilitado
+    // ciclo de vida / lifecycle
+    // - existen métodos que se invocan en momentos específicos de la vida del script
+    
+    // Se invoca una vez al inicio de la vida del componente 
+    // otra diferencia - awake se invoca aunque objeto esté deshabilitado
     void Awake()
     {
+        print("AWAKE");
     }
 
-    // Se invoca una vez que se invocaron todos los awake
+    // Se invoca una vez después que fueron invocados todos los awakes
     void Start()
     {
-        // Obtener referencia a otro componente
-        // getcomponent es lento - se usa en start o awake
-        // Puede regresar nulo
-        transform = GetComponent<Transform>();
-        Assert.IsNotNull(transform, "ES NECESARIO PARA MOVIMIENTO UN TRANFORM");
-        Assert.IsNotNull(_disparoOriginal, "disparo no puede ser nulo");
+        Debug.Log("START");
+
+        // como obtener referencia a otro componente
+
+        // NOTAS:
+        // - getcomponent es lento, hazlo la menor cantidad de veces posible
+        // - con transform ya tenemos referencia (ahorita lo vemos)
+        // - esta operación puede regresar nulo
+        _transform = GetComponent<Transform>();
+        
+        // si tienes require esto ya no es necesario
+        Assert.IsNotNull(_transform, "ES NECESARIO PARA MOVIMIENTO TENER UN TRANSFORM");
+        Assert.IsNotNull(_disparoOriginal, "DISPARO NO PUEDE SER NULO");
+        Assert.AreNotEqual(0, _speed, "VELOCIDAD DEBE SER MAYOR A 0");
     }
 
     // Update is called once per frame
-    // Minimo - 30 fps
-    // Ideal - 60+ fps
-    // Siempre vamos a tratar que sea lo mas simple posible
-    // Se utiliza para la entrada de usuario y el movimiento
-    void Update()
-    {
-        // polling por dispositivo:
+    // frame? cuadro?
+    // fotograma
+    // target mínimo - 30 fps
+    // ideal - 60+ fps
+    void Update(){
+        //Debug.LogWarning("UPDATE");
 
-        // True if: Estaba libre y ahora presionada
+        // SIEMPRE vamos a tratar que este sea lo más magro posible
+        // update lo usamos para 2 cosas
+        // 1 - entrada de usuario
+        // 2 - movimiento
+
+        // ahorita - vamos a hacer polling por dispositivo
+        
+        // true - cuando en el cuadro anterior estaba libre
+        // y en este está presionada
         if(Input.GetKeyDown(KeyCode.Z))
         {
-            Debug.Log("KEY DOWN: A");
+            print("KEY DOWN: Z");
         }
 
-        // True if: Estaba presionada y ahora presionada
+        // true - cuando en el cuadro anterior estaba presionada
+        // y en el actual sigue presionada
         if(Input.GetKey(KeyCode.Z))
         {
-            Debug.Log("KEY: A");
+            print("KEY: Z");
         }
 
-        // True if: Estaba presionada y ahora libre
+        // true - estaba presionada
+        // ya está libre
         if(Input.GetKeyUp(KeyCode.Z))
         {
-            Debug.Log("KEY UP: A");
+            print("KEY UP: Z");
         }
 
-        // vamos a usar ejes:
-        // Mapeo de hardware a un valor abstracto eje
+        if(Input.GetMouseButtonDown(0))
+        {
+            print("MOUSE BUTTON DOWN");
+        }
+
+        if(Input.GetMouseButton(0))
+        {
+            print("MOUSE BUTTON");
+        }
+
+        if(Input.GetMouseButtonUp(0))
+        {
+            print("MOUSE BUTTON UP");
+        }
+        
+
+        // vamos a usar ejes (después)
+        // - mapeo de hardware a un valor abstracto llamado eje
         // rango [-1, 1]
 
-        // Hacemos polling a eje
+        // hacemos polling a eje en lugar de hacerlo a hardware específico
+        //float horizontal = Input.GetAxisRaw("Horizontal");
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        print(horizontal + " " + vertical);
+        //print(horizontal + " " + vertical);
+
+        // como mover objetos 
+        // 4 opciones 
+        // 1 - directamente con su transform
+        // 2 - por medio de character controller
+        // 3 - por medio del motor de física
+        // 4 - por medio de navmesh (AI)
+
+        transform.Translate(
+            horizontal * _speed * Time.deltaTime, 
+            vertical * _speed * Time.deltaTime, 
+            0, 
+            Space.World
+        );
 
         // se pueden usar ejes como botones
-        if (Input.GetButtonDown("Jump"))
-        {
+        if(Input.GetButtonDown("Jump")){
             print("JUMP");
-            Instantiate(_disparoOriginal, transform.position, transform.rotation); 
+            
+            // se pueden hacer game objects vacíos
+            // GameObject objeto = new GameObject();
+
+            // si queremos un game object predefinido para clonar
+            // usamos instantiate
+            Instantiate(
+                _disparoOriginal, 
+                transform.position, 
+                transform.rotation
+            );
         }
-
-        // como mover objetos
-        // 1 directamente con su transform
-        // 2 character controller
-        // 3 motor de fisica
-        // 4 navmesh (AI)
-
-        transform.Translate(horizontal * _speed * Time.deltaTime, vertical * _speed * Time.deltaTime, 0, Space.World);
-
     }
 
-    // Update que corre en intevalo fijado en la cnfiguracion del proyecto
-    // No puede correr mas rapido que Update
+    // fixed? - fijo
+    // update que corre en intervalo fijado en la configuración del proyecto
+    // NO puede correr más frecuentemente que update
     void FixedUpdate()
     {
+        //Debug.LogError("FIXED UPDATE");
     }
 
-    // Corre todos los cuadros
-    // Cada vez que los updates estan terminados
+    // corre todos los cuadros
+    // una vez que los updates están terminados
     void LateUpdate()
     {
+        //print("LATE UPDATE");
     }
+
+    // CÓDIGO MUY ÚTIL
+    // HOLA ESTOY EN EL REPO!
 }

@@ -5,23 +5,35 @@ using UnityEngine.Assertions;
 
 public class Proyectil : MonoBehaviour
 {
+
+
     [SerializeField]
     private float _speed = 5;
 
     [SerializeField]
-    private float _tiempoDeAuotDestruccion = 3;
+    private float _tiempoDeAutodestruccion = 3;
+
     private GUIManager _gui;
-    void Start()
-    {
-        Destroy(gameObject, _tiempoDeAuotDestruccion);
-        GameObject gui = GameObject.Find("GUIManager");
-        Assert.IsNotNull(gui, "No se encontro el GUIManager");
-        _gui = gui.GetComponent<GUIManager>();
-        Assert.IsNotNull(_gui, "No se encontro el componente GUIManager");
-    }
-
     
+    void Start() 
+    {
 
+        // NOTA IMPORTANTE
+        // si voy a crear objetos dinámicamente
+        // es indispensable que tenga al menos 1 estrategia de destrucción
+        
+        // destroy - destruye game objects completos
+        // o componentes
+        
+        Destroy(gameObject, _tiempoDeAutodestruccion);
+
+        // NOTA- ESTO VA A CAMBIAR
+        GameObject guiGO = GameObject.Find("GUIManager");
+        Assert.IsNotNull(guiGO, "no hay GUIManager");
+
+        _gui = guiGO.GetComponent<GUIManager>();
+        Assert.IsNotNull(_gui, "GUIManager no tiene componente");
+    }
 
     // Update is called once per frame
     void Update()
@@ -31,44 +43,51 @@ public class Proyectil : MonoBehaviour
             _speed * Time.deltaTime,
             0
         );
-
     }
-    // Colisiones
-    // para checar que colisiones con fisica necesitamos:
-    // 1. un collider
-    // 2. un rigidbody
-    // 3. un script que chequee las colisiones
-    // el rigidbody es un componente que se agrega a un objeto y debe de estar en un objeto movil
+ 
+    // COLISIONES
+    // para checar colisiones con física necesitamos:
+    // 1. todos los objetos involucrados necesitan collider
+    // 2. necesitamos que al menos 1 tenga rigidbody
+    // 3. el rigidbody debe estar en un objeto que se mueva
 
-    void onColissionEnter(Collision C){
-        print("ENTER" + C.transform.name);
+    // TODOS LOS INVOLUCRADOS PUEDEN TENER 
+    // SUS RESPECTIVOS MENSAJES DE REACCIÓN
 
+    void OnCollisionEnter(Collision c) 
+    {
+        // objeto collision que recibimos
+        // contiene info de la colisión
+        
+        // cómo saber qué hacer 
+        // 1. filtrar por tag
+        // 2. filtrar por layer
+        print("ENTER " + c.transform.name);
     }
 
-    void onColissionStay(Collision C){
+    void OnCollisionStay(Collision c) 
+    {
         print("STAY");
-
     }
 
-    void onColissionExit(Collision C){
+    void OnCollisionExit(Collision c) 
+    {
         print("EXIT");
-
     }
 
-    void onTriggerEnter(Collider C){
-        print("ENTER");
-
+    void OnTriggerEnter(Collider c)
+    {
+        print("TRIGGER ENTER");
     }
 
-    void onTriggerStay(Collider C){
-        print("STAY");
-
+    void OnTriggerStay(Collider c)
+    {
+        print("TRIGGER STAY");
     }
 
-    void onTriggerExit(Collider C){
-        print("EXIT");
-        _gui._texto.text = "Hola desde el GUIManager";
-
+    void OnTriggerExit(Collider c)
+    {
+        print("TRIGGER EXIT");
+        _gui._texto.text = "SALI " + transform.name;
     }
 }
-

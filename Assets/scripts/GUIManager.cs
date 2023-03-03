@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 using UnityEngine.Assertions;
 
 public class GUIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField]
     public TMP_Text _texto;
+
+    // Start is called before the first frame update
     void Start()
     {
-        Assert.IsNotNull(_texto, "Texto no puede ser nulo");
-
-        _texto.text = "Hola desde el GUIManager";
-        
+        Assert.IsNotNull(_texto, "TEXTO NO PUEDE SER NULO");
+        _texto.text = "HOLA DESDE CODIGO";
     }
 
     // Update is called once per frame
