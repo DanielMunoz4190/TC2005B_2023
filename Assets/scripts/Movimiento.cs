@@ -8,7 +8,9 @@ using UnityEngine.Assertions;
 public class Movimiento : MonoBehaviour
 {
     private Transform _transform;
-
+    [SerializeField]
+    private float minY, maxY, minX, maxX;
+    
     [SerializeField]
     private float _speed = 10;
 
@@ -38,6 +40,17 @@ public class Movimiento : MonoBehaviour
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
+        if (transform.position.y > maxY && vertical > 0) {
+            vertical = 0;
+        } else if (transform.position.y < minY && vertical < 0) {
+            vertical = 0;
+        }
+
+        if (transform.position.x > maxX && horizontal > 0) {
+            horizontal = 0;
+        }else if (transform.position.x < minX && horizontal < 0) {
+            horizontal = 0;
+        }
 
         transform.Translate(
             horizontal * _speed * Time.deltaTime, 

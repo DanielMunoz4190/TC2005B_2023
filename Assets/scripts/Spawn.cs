@@ -21,7 +21,7 @@ public class Spawn : MonoBehaviour
     }
     void enemy()
     {
-            Instantiate(_enemyOriginal, _transform.position, transform.rotation);
+        Instantiate(_enemyOriginal, _transform.position, transform.rotation);
     }
     void Update()
     {

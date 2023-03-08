@@ -5,8 +5,6 @@ using UnityEngine.Assertions;
 
 public class Proyectil : MonoBehaviour
 {
-
-
     [SerializeField]
     private float _speed = 5;
 
