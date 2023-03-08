@@ -1,19 +1,12 @@
-// estamos usando .NET
-// aquí "importamos" namespaces
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-// OJO 
-// con esta directiva obligamos la presencia de un componente en el gameobject
-// (todos tienen transform así que este ejemplo es redundante)
 [RequireComponent(typeof(Transform))]
 public class Movimiento : MonoBehaviour
 {
-
-    // va a haber situaciones en donde deba accedr a otro componente
-    // voy a necesitar una referencia
     private Transform _transform;
 
     [SerializeField]
@@ -22,104 +15,29 @@ public class Movimiento : MonoBehaviour
     [SerializeField]
     private Proyectil _disparoOriginal;
 
-    // ciclo de vida / lifecycle
-    // - existen métodos que se invocan en momentos específicos de la vida del script
-    
-    // Se invoca una vez al inicio de la vida del componente 
-    // otra diferencia - awake se invoca aunque objeto esté deshabilitado
+    [SerializeField]
+    private float _tiempoEntreDisparos = 0.5f;
+
+    private float _tiempoUltimoDisparo = -Mathf.Infinity;
+
     void Awake()
     {
         print("AWAKE");
     }
 
-    // Se invoca una vez después que fueron invocados todos los awakes
     void Start()
     {
         Debug.Log("START");
 
-        // como obtener referencia a otro componente
-
-        // NOTAS:
-        // - getcomponent es lento, hazlo la menor cantidad de veces posible
-        // - con transform ya tenemos referencia (ahorita lo vemos)
-        // - esta operación puede regresar nulo
         _transform = GetComponent<Transform>();
-        
-        // si tienes require esto ya no es necesario
-        Assert.IsNotNull(_transform, "ES NECESARIO PARA MOVIMIENTO TENER UN TRANSFORM");
+
         Assert.IsNotNull(_disparoOriginal, "DISPARO NO PUEDE SER NULO");
-        Assert.AreNotEqual(0, _speed, "VELOCIDAD DEBE SER MAYOR A 0");
     }
 
-    // Update is called once per frame
-    // frame? cuadro?
-    // fotograma
-    // target mínimo - 30 fps
-    // ideal - 60+ fps
-    void Update(){
-        //Debug.LogWarning("UPDATE");
-
-        // SIEMPRE vamos a tratar que este sea lo más magro posible
-        // update lo usamos para 2 cosas
-        // 1 - entrada de usuario
-        // 2 - movimiento
-
-        // ahorita - vamos a hacer polling por dispositivo
-        
-        // true - cuando en el cuadro anterior estaba libre
-        // y en este está presionada
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            print("KEY DOWN: Z");
-        }
-
-        // true - cuando en el cuadro anterior estaba presionada
-        // y en el actual sigue presionada
-        if(Input.GetKey(KeyCode.Z))
-        {
-            print("KEY: Z");
-        }
-
-        // true - estaba presionada
-        // ya está libre
-        if(Input.GetKeyUp(KeyCode.Z))
-        {
-            print("KEY UP: Z");
-        }
-
-        if(Input.GetMouseButtonDown(0))
-        {
-            print("MOUSE BUTTON DOWN");
-        }
-
-        if(Input.GetMouseButton(0))
-        {
-            print("MOUSE BUTTON");
-        }
-
-        if(Input.GetMouseButtonUp(0))
-        {
-            print("MOUSE BUTTON UP");
-        }
-        
-
-        // vamos a usar ejes (después)
-        // - mapeo de hardware a un valor abstracto llamado eje
-        // rango [-1, 1]
-
-        // hacemos polling a eje en lugar de hacerlo a hardware específico
-        //float horizontal = Input.GetAxisRaw("Horizontal");
+    void moveShip()
+    {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-        //print(horizontal + " " + vertical);
-
-        // como mover objetos 
-        // 4 opciones 
-        // 1 - directamente con su transform
-        // 2 - por medio de character controller
-        // 3 - por medio del motor de física
-        // 4 - por medio de navmesh (AI)
 
         transform.Translate(
             horizontal * _speed * Time.deltaTime, 
@@ -127,39 +45,28 @@ public class Movimiento : MonoBehaviour
             0, 
             Space.World
         );
+    }
+    void shoot()
+    {
+        Instantiate(
+            _disparoOriginal, 
+            _transform.position,
+            transform.rotation
+        );
+    }
 
-        // se pueden usar ejes como botones
-        if(Input.GetButtonDown("Jump")){
-            print("JUMP");
-            
-            // se pueden hacer game objects vacíos
-            // GameObject objeto = new GameObject();
+    void Update()
+    {
+        moveShip();
 
-            // si queremos un game object predefinido para clonar
-            // usamos instantiate
+        if (Input.GetButtonDown("Jump") && Time.time >= _tiempoUltimoDisparo + _tiempoEntreDisparos) 
+        {
+            _tiempoUltimoDisparo = Time.time;
             Instantiate(
-                _disparoOriginal, 
-                transform.position, 
-                transform.rotation
+            _disparoOriginal,
+            transform.position,
+            transform.rotation
             );
         }
     }
-
-    // fixed? - fijo
-    // update que corre en intervalo fijado en la configuración del proyecto
-    // NO puede correr más frecuentemente que update
-    void FixedUpdate()
-    {
-        //Debug.LogError("FIXED UPDATE");
-    }
-
-    // corre todos los cuadros
-    // una vez que los updates están terminados
-    void LateUpdate()
-    {
-        //print("LATE UPDATE");
-    }
-
-    // CÓDIGO MUY ÚTIL
-    // HOLA ESTOY EN EL REPO!
 }
