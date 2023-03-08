@@ -6,11 +6,16 @@ using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Transform))]
 public class Movimiento : MonoBehaviour
-{
+{   
+    public GameObject Enemy;
+
+    public float TiempoEnemy;
+
+    public float NuevoEnemy;
     private Transform _transform;
     [SerializeField]
     private float minY, maxY, minX, maxX;
-    
+
     [SerializeField]
     private float _speed = 10;
 
@@ -34,6 +39,7 @@ public class Movimiento : MonoBehaviour
         _transform = GetComponent<Transform>();
 
         Assert.IsNotNull(_disparoOriginal, "DISPARO NO PUEDE SER NULO");
+        Assert.IsNotNull(Enemy, "ENEMIGO NO PUEDE SER NULO");
     }
 
     void moveShip()
@@ -42,13 +48,15 @@ public class Movimiento : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         if (transform.position.y > maxY && vertical > 0) {
             vertical = 0;
-        } else if (transform.position.y < minY && vertical < 0) {
+        } 
+        else if (transform.position.y < minY && vertical < 0) {
             vertical = 0;
         }
 
         if (transform.position.x > maxX && horizontal > 0) {
             horizontal = 0;
-        }else if (transform.position.x < minX && horizontal < 0) {
+        }
+        else if (transform.position.x < minX && horizontal < 0) {
             horizontal = 0;
         }
 
@@ -59,27 +67,36 @@ public class Movimiento : MonoBehaviour
             Space.World
         );
     }
+    
+
+
     void shoot()
     {
+        _tiempoUltimoDisparo = Time.time;
+
         Instantiate(
-            _disparoOriginal, 
-            _transform.position,
-            transform.rotation
-        );
+        _disparoOriginal,
+        transform.position,
+        transform.rotation);
     }
 
     void Update()
     {
         moveShip();
 
+        if(NuevoEnemy <= 0){
+            NuevoEnemy = TiempoEnemy;
+            int random = UnityEngine.Random.Range(-5, 5);
+            GameObject enemy = Instantiate(Enemy, new Vector3(random, 5, 0), Quaternion.identity);
+            Destroy(enemy, 5);
+        }
+        
+        NuevoEnemy -= Time.deltaTime;
+        
+
         if (Input.GetButtonDown("Jump") && Time.time >= _tiempoUltimoDisparo + _tiempoEntreDisparos) 
         {
-            _tiempoUltimoDisparo = Time.time;
-            Instantiate(
-            _disparoOriginal,
-            transform.position,
-            transform.rotation
-            );
+            shoot();
         }
     }
 }
