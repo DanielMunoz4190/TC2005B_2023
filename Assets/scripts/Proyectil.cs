@@ -35,7 +35,6 @@ public class Proyectil : MonoBehaviour
  
     void OnCollisionEnter(Collision c) 
     {
-
         print("ENTER " + c.transform.name);
     }
 
@@ -53,6 +52,11 @@ public class Proyectil : MonoBehaviour
     {
         print("TRIGGER ENTER");
         _gui._texto.text = "ENTRE " + transform.name;
+        Enemy enemy = c.GetComponent<Enemy>();
+        if (enemy != null) {
+            enemy.Die();
+        }
+        Destroy(gameObject, 0.1f);
     }
 
     void OnTriggerStay(Collider c)

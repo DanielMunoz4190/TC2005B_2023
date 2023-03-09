@@ -74,10 +74,13 @@ public class Movimiento : MonoBehaviour
     {
         _tiempoUltimoDisparo = Time.time;
 
-        Instantiate(
-        _disparoOriginal,
-        transform.position,
-        transform.rotation);
+        // Instancia un nuevo proyectil y agrega los componentes necesarios para que detecte colisiones
+        Proyectil nuevoProyectil = Instantiate(
+            _disparoOriginal,
+            transform.position,
+            transform.rotation);
+        nuevoProyectil.gameObject.AddComponent<Rigidbody>();
+        nuevoProyectil.gameObject.AddComponent<Proyectil>();
     }
 
     void Update()
@@ -90,6 +93,7 @@ public class Movimiento : MonoBehaviour
             GameObject enemy = Instantiate(Enemy, new Vector3(random, 5, 0), Quaternion.identity);
             Destroy(enemy, 5);
         }
+       
         
         NuevoEnemy -= Time.deltaTime;
         

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 5675210087796944708}
   - component: {fileID: 3063843992773387181}
   - component: {fileID: 4164559508535330620}
-  - component: {fileID: -3584948918020271804}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -98,25 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-3584948918020271804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130597290138776087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c294e511d566a1b8eb29088d62269acd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Enemy: {fileID: 130597290138776087}
-  TiempoEnemy: 10
-  NuevoEnemy: 10
-  minY: 0
-  maxY: 0
-  minX: 0
-  maxX: 0
-  _speed: 10
-  _disparoOriginal: {fileID: 0}
-  _tiempoEntreDisparos: 0.5

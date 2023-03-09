@@ -5,22 +5,11 @@ using UnityEngine.Assertions;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = -1;
-    
-    void Start() 
+    public void Die()
     {
-
+        // Destruye el enemigo cuando sea impactado por un proyectil
+        Destroy(gameObject);
     }
 
-    void Update()
-    {
-        transform.Translate
-        (
-            0,
-            _speed * Time.deltaTime,
-            0
-        );
-    }
 
 }
