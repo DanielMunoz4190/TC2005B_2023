@@ -27,6 +27,8 @@ public class Movimiento : MonoBehaviour
 
     private float _tiempoUltimoDisparo = -Mathf.Infinity;
 
+    private GUIManager _gui;
+
     void Awake()
     {
         print("AWAKE");
@@ -40,6 +42,11 @@ public class Movimiento : MonoBehaviour
 
         Assert.IsNotNull(_disparoOriginal, "DISPARO NO PUEDE SER NULO");
         Assert.IsNotNull(Enemy, "ENEMIGO NO PUEDE SER NULO");
+        GameObject guiGO = GameObject.Find("GUIManager");
+        Assert.IsNotNull(guiGO, "no hay GUIManager");
+
+        _gui = guiGO.GetComponent<GUIManager>();
+        Assert.IsNotNull(_gui, "GUIManager no tiene componente");
     }
 
     void moveShip()
@@ -81,6 +88,7 @@ public class Movimiento : MonoBehaviour
             transform.rotation);
         nuevoProyectil.gameObject.AddComponent<Rigidbody>();
         nuevoProyectil.gameObject.AddComponent<Proyectil>();
+        _gui._texto.text = "disparo " + transform.name;
     }
 
     void Update()
