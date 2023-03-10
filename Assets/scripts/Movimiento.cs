@@ -85,7 +85,7 @@ public class Movimiento : MonoBehaviour
         Proyectil nuevoProyectil = Instantiate(
             _disparoOriginal,
             transform.position,
-            transform.rotation);
+            _disparoOriginal.transform.rotation);
         nuevoProyectil.gameObject.AddComponent<Rigidbody>();
         nuevoProyectil.gameObject.AddComponent<Proyectil>();
         _gui._texto.text = "disparo " + transform.name;
