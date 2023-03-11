@@ -12,7 +12,7 @@ Unity (versión 2019.4.26f1 o superior)
 - Cada vez que el proyectil del jugador colisiona con un enemigo, su marcador se incrementará y se mostrará en la pantalla por medio de una GUI.
 - Cuando las vidas del jugador lleguen a 0. GAME OVER
 
-##Cómo jugar
+## Cómo jugar
 1. Descarga o clona este proyecto en tu computadora
 2. Abre Unity y abre el proyecto descargado
 3. Haz clic en el botón "Play" para iniciar el juego
