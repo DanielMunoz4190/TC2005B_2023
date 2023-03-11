@@ -4,18 +4,28 @@ using UnityEngine;
 
 public class Score: MonoBehaviour
 {
-    public int score = 0;
-    public int health = 5;
+    public double score = 0;
+    public double health = 5;
 
     public void AddScore()
     {
-        score += 1;
+        score = score + 0.5;
         print("Score: " + score);
     }
 
     public void ReduceHealth()
     {
-        health -= 1;
+        health -= 0.25;
         print("Health: " + health);
+    }
+
+    public double GetScore()
+    {
+        return score;
+    }
+
+    public double GetHealth()
+    {
+        return health;
     }
 }
