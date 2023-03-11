@@ -34,7 +34,6 @@ public class Enemy : MonoBehaviour
     {
         // Destruye el enemigo cuando sea impactado por un proyectil
         scoreSystem.AddScore();
-        _gui._texto.text = "Score: " + scoreSystem.GetScore();
         Destroy(gameObject);
     }
 

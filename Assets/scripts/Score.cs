@@ -10,13 +10,11 @@ public class Score: MonoBehaviour
     public void AddScore()
     {
         score = score + 0.5;
-        print("Score: " + score);
     }
 
     public void ReduceHealth()
     {
         health -= 0.25;
-        print("Health: " + health);
     }
 
     public double GetScore()

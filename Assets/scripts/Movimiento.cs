@@ -97,7 +97,7 @@ public class Movimiento : MonoBehaviour
     {
         moveShip();
 
-        if (Input.GetKeyDown("p")) 
+        if (Input.GetKeyDown("e")) 
         {
             int random = UnityEngine.Random.Range(-5, 5);
             GameObject enemy = Instantiate(Enemy, new Vector3(random, 5, 0), Quaternion.identity);
@@ -107,6 +107,17 @@ public class Movimiento : MonoBehaviour
         if (Input.GetButtonDown("Jump") && Time.time >= _tiempoUltimoDisparo + _tiempoEntreDisparos) 
         {
             shoot();
+        }
+
+        _gui._texto.text = "Score: " + scoreSystem.GetScore() + "\n" + "Health: " + scoreSystem.GetHealth();
+
+        if (scoreSystem.GetHealth() <= 0) {
+            _gui._texto.text = "GAME OVER";
+            Destroy(gameObject);
+        }
+        else if (scoreSystem.GetScore() >= 20) {
+            _gui._texto.text = "YOU WIN";
+            Destroy(gameObject);
         }
     }
 }
