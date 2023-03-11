@@ -66,8 +66,8 @@ public class Proyectil : MonoBehaviour
         Enemy enemy = c.GetComponent<Enemy>();
         if (enemy != null) {
             enemy.Die();
+            Destroy(gameObject, 0.1f);
         }
-        Destroy(gameObject, 0.1f);
     }
 
     void OnTriggerStay(Collider c)
