@@ -13,7 +13,7 @@ public class Score: MonoBehaviour
         print("Score: " + score);
     }
 
-        public void ReduceHealth()
+    public void ReduceHealth()
     {
         health -= 1;
         print("Health: " + health);

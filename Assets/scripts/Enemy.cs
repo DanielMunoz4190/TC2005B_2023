@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour
     }
 
     public void Die()
-
     {
         // Destruye el enemigo cuando sea impactado por un proyectil
         scoreSystem.AddScore();

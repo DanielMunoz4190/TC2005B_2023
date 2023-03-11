@@ -91,7 +91,6 @@ public class Movimiento : MonoBehaviour
             _disparoOriginal.transform.rotation);
         nuevoProyectil.gameObject.AddComponent<Rigidbody>();
         nuevoProyectil.gameObject.AddComponent<Proyectil>();
-        _gui._texto.text = "disparo " + transform.name;
     }
 
     void Update()
