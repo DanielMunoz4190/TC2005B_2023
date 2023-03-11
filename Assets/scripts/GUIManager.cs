@@ -12,11 +12,9 @@ public class GUIManager : MonoBehaviour
     void Start()
     {
         Assert.IsNotNull(_texto, "TEXTO NO PUEDE SER NULO");
-        _texto.text = "HOLA DESDE CODIGO";
+        _texto.text = "Score: 0";
     }
 
     void Update()
-    {
-        
-    }
+    {}
 }

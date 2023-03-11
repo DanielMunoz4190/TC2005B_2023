@@ -9,13 +9,13 @@ public class Score: MonoBehaviour
 
     public void AddScore()
     {
-        score+= 1;
+        score += 1;
         print("Score: " + score);
     }
 
         public void ReduceHealth()
     {
-        health-= 1;
+        health -= 1;
         print("Health: " + health);
     }
 }

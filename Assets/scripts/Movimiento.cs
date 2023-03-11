@@ -13,6 +13,7 @@ public class Movimiento : MonoBehaviour
 
     public float NuevoEnemy;
     private Transform _transform;
+
     [SerializeField]
     private float minY, maxY, minX, maxX;
 
@@ -32,14 +33,10 @@ public class Movimiento : MonoBehaviour
     private Score scoreSystem;
 
     void Awake()
-    {
-        print("AWAKE");
-    }
+    {}
 
     void Start()
     {
-        Debug.Log("START");
-
         _transform = GetComponent<Transform>();
 
         Assert.IsNotNull(_disparoOriginal, "DISPARO NO PUEDE SER NULO");
@@ -50,7 +47,7 @@ public class Movimiento : MonoBehaviour
         _gui = guiGO.GetComponent<GUIManager>();
         Assert.IsNotNull(_gui, "GUIManager no tiene componente");
 
-                GameObject score = GameObject.Find("Score");
+        GameObject score = GameObject.Find("Score");
         Assert.IsNotNull(score, "no se encontró el Score");
 
         scoreSystem = score.GetComponent<Score>();
@@ -107,10 +104,8 @@ public class Movimiento : MonoBehaviour
             GameObject enemy = Instantiate(Enemy, new Vector3(random, 5, 0), Quaternion.identity);
             Destroy(enemy, 5);
         }
-       
         
         NuevoEnemy -= Time.deltaTime;
-        
 
         if (Input.GetKeyDown("p")) 
         {

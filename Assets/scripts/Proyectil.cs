@@ -13,10 +13,7 @@ public class Proyectil : MonoBehaviour
 
     private GUIManager _gui;
 
-
-
     private Score scoreSystem;
-
     
     void Start() 
     {
@@ -43,26 +40,9 @@ public class Proyectil : MonoBehaviour
             0
         );
     }
- 
-    void OnCollisionEnter(Collision c) 
-    {
-        //print("ENTER " + c.transform.name);
-    }
-
-    void OnCollisionStay(Collision c) 
-    {
-       // print("STAY");
-    }
-
-    void OnCollisionExit(Collision c) 
-    {
-        //print("EXIT");
-    }
 
     void OnTriggerEnter(Collider c)
     {
-        //print("TRIGGER ENTER");
-        
         Enemy enemy = c.GetComponent<Enemy>();
         if (enemy != null) {
             enemy.Die();
@@ -70,14 +50,8 @@ public class Proyectil : MonoBehaviour
         }
     }
 
-    void OnTriggerStay(Collider c)
-    {
-        // print("TRIGGER STAY");
-    }
-
     void OnTriggerExit(Collider c)
     {
-        //print("TRIGGER EXIT");
-        _gui._texto.text = "SALI " + transform.name;
+        //_gui._texto.text = "SALI " + transform.name;
     }
 }

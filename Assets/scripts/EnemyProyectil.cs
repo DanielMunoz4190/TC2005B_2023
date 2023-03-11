@@ -13,7 +13,7 @@ public class EnemyProyectil : MonoBehaviour
 
     private GUIManager _gui;
 
-        private Score scoreSystem;
+    private Score scoreSystem;
     
     void Start() 
     {
@@ -25,7 +25,7 @@ public class EnemyProyectil : MonoBehaviour
         _gui = guiGO.GetComponent<GUIManager>();
         Assert.IsNotNull(_gui, "GUIManager no tiene componente");
 
-                GameObject score = GameObject.Find("Score");
+        GameObject score = GameObject.Find("Score");
         Assert.IsNotNull(score, "no se encontró el Score");
 
         scoreSystem = score.GetComponent<Score>();
@@ -40,21 +40,6 @@ public class EnemyProyectil : MonoBehaviour
             0
         );
     }
- 
-    void OnCollisionEnter(Collision c) 
-    {
-        //print("ENTER " + c.transform.name);
-    }
-
-    void OnCollisionStay(Collision c) 
-    {
-        // print("STAY");
-    }
-
-    void OnCollisionExit(Collision c) 
-    {
-        //print("EXIT");
-    }
 
    void OnTriggerEnter(Collider other)
     {
@@ -64,15 +49,5 @@ public class EnemyProyectil : MonoBehaviour
             scoreSystem.ReduceHealth();
             Destroy(gameObject);
         }
-    }
-    void OnTriggerStay(Collider c)
-    {
-        // print("TRIGGER STAY");
-    }
-
-    void OnTriggerExit(Collider c)
-    {
-        //print("TRIGGER EXIT");
-        _gui._texto.text = "SALI " + transform.name;
     }
 }

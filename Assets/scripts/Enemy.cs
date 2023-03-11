@@ -11,23 +11,25 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _tiempoEntreDisparos = 2;
 
-        private Score scoreSystem;
+    private Score scoreSystem;
 
     void Start() 
     {
-
-                GameObject score = GameObject.Find("Score");
+        GameObject score = GameObject.Find("Score");
         Assert.IsNotNull(score, "no se encontró el Score");
 
         scoreSystem = score.GetComponent<Score>();
         Assert.IsNotNull(scoreSystem, "ScoreManager no tiene componente");
     }
-       public void Die()
+
+    public void Die()
+
     {
         // Destruye el enemigo cuando sea impactado por un proyectil
         scoreSystem.AddScore();
         Destroy(gameObject);
     }
+
     void shoot()
     {
         // Instancia un nuevo proyectil y agrega los componentes necesarios para que detecte colisiones
@@ -39,6 +41,7 @@ public class Enemy : MonoBehaviour
         nuevoProyectil.gameObject.AddComponent<EnemyProyectil>();
         
     }
+    
     void Update()
     {
         // Dispara cada 2 segundos
@@ -48,6 +51,4 @@ public class Enemy : MonoBehaviour
            _tiempoEntreDisparos = Time.time + 2;
         }
     }
-
-
 }
