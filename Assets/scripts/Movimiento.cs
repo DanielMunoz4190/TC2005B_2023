@@ -112,6 +112,13 @@ public class Movimiento : MonoBehaviour
         NuevoEnemy -= Time.deltaTime;
         
 
+        if (Input.GetKeyDown("p")) 
+        {
+            int random = UnityEngine.Random.Range(-5, 5);
+            GameObject enemy = Instantiate(Enemy, new Vector3(random, 5, 0), Quaternion.identity);
+            Destroy(enemy, 5);
+        }
+
         if (Input.GetButtonDown("Jump") && Time.time >= _tiempoUltimoDisparo + _tiempoEntreDisparos) 
         {
             shoot();
