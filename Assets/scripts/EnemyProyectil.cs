@@ -12,6 +12,8 @@ public class EnemyProyectil : MonoBehaviour
     private float _tiempoDeAutodestruccion = 5;
 
     private GUIManager _gui;
+
+        private Score scoreSystem;
     
     void Start() 
     {
@@ -22,6 +24,12 @@ public class EnemyProyectil : MonoBehaviour
 
         _gui = guiGO.GetComponent<GUIManager>();
         Assert.IsNotNull(_gui, "GUIManager no tiene componente");
+
+                GameObject score = GameObject.Find("Score");
+        Assert.IsNotNull(score, "no se encontró el Score");
+
+        scoreSystem = score.GetComponent<Score>();
+        Assert.IsNotNull(scoreSystem, "ScoreManager no tiene componente");
     }
 
     void Update()
@@ -35,32 +43,36 @@ public class EnemyProyectil : MonoBehaviour
  
     void OnCollisionEnter(Collision c) 
     {
-        print("ENTER " + c.transform.name);
+        //print("ENTER " + c.transform.name);
     }
 
     void OnCollisionStay(Collision c) 
     {
-        print("STAY");
+        // print("STAY");
     }
 
     void OnCollisionExit(Collision c) 
     {
-        print("EXIT");
+        //print("EXIT");
     }
 
-    void OnTriggerEnter(Collider c)
+   void OnTriggerEnter(Collider other)
     {
-        print("TRIGGER ENTER");
+        if (other.CompareTag("Player"))
+        {
+            // The projectile has collided with the player ship
+            scoreSystem.ReduceHealth();
+            Destroy(gameObject);
+        }
     }
-
     void OnTriggerStay(Collider c)
     {
-        print("TRIGGER STAY");
+        // print("TRIGGER STAY");
     }
 
     void OnTriggerExit(Collider c)
     {
-        print("TRIGGER EXIT");
+        //print("TRIGGER EXIT");
         _gui._texto.text = "SALI " + transform.name;
     }
 }

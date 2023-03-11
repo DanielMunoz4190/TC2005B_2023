@@ -29,6 +29,8 @@ public class Movimiento : MonoBehaviour
 
     private GUIManager _gui;
 
+    private Score scoreSystem;
+
     void Awake()
     {
         print("AWAKE");
@@ -47,6 +49,12 @@ public class Movimiento : MonoBehaviour
 
         _gui = guiGO.GetComponent<GUIManager>();
         Assert.IsNotNull(_gui, "GUIManager no tiene componente");
+
+                GameObject score = GameObject.Find("Score");
+        Assert.IsNotNull(score, "no se encontró el Score");
+
+        scoreSystem = score.GetComponent<Score>();
+        Assert.IsNotNull(scoreSystem, "ScoreManager no tiene componente");
     }
 
     void moveShip()
@@ -74,8 +82,6 @@ public class Movimiento : MonoBehaviour
             Space.World
         );
     }
-    
-
 
     void shoot()
     {

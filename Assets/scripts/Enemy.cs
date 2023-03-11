@@ -11,9 +11,21 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _tiempoEntreDisparos = 2;
 
+        private Score scoreSystem;
+
+    void Start() 
+    {
+
+                GameObject score = GameObject.Find("Score");
+        Assert.IsNotNull(score, "no se encontró el Score");
+
+        scoreSystem = score.GetComponent<Score>();
+        Assert.IsNotNull(scoreSystem, "ScoreManager no tiene componente");
+    }
        public void Die()
     {
         // Destruye el enemigo cuando sea impactado por un proyectil
+        scoreSystem.AddScore();
         Destroy(gameObject);
     }
     void shoot()
